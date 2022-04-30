@@ -1,0 +1,57 @@
+<h2>Background for text</h2>
+<p>Margin top: <input id="marginTop" type="number" value="0" /></p>
+<p>Margin left: <input id="marginLeft" type="number" value="0" /></p>
+<p>Height: <input id="height" type="number" value="10" /></p>
+<p>Corner radius: <input id="cornerRadius" type="number" value="0" /></p>
+<button id="submit">Let's go</button>
+
+<script>
+  onmessage = (event) => {
+    const initialHeight = event.data.pluginMessage;
+    const heightInput = document.getElementById("height");
+    heightInput.value = initialHeight;
+  };
+
+  document.getElementById("submit").onclick = () => {
+    const marginTopInputValue = document.getElementById("marginTop").value;
+    const marginTopNumber = Number(marginTopInputValue);
+    if (marginTopNumber == "NaN") {
+      alert("Margin top has to be a number.");
+      return;
+    }
+
+    const marginLeftInputValue = document.getElementById("marginLeft").value;
+    const marginLeftNumber = Number(marginLeftInputValue);
+    if (marginLeftNumber == "NaN") {
+      alert("Margin left has to be a number.");
+      return;
+    }
+
+    const heightInputValue = document.getElementById("height").value;
+    const heightNumber = Number(heightInputValue);
+    if (heightNumber == "NaN" || heightNumber < 1) {
+      alert("Height has to be a number greater than 1");
+      return;
+    }
+
+    const cornerRadiusInputValue =
+      document.getElementById("cornerRadius").value;
+    const cornerRadiusNumber = Number(cornerRadiusInputValue);
+    if (cornerRadiusNumber == "NaN" || cornerRadiusNumber < 0) {
+      alert("Corner radius input has to be a number greater than or exactly 0");
+      return;
+    }
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          marginTop: marginTopNumber,
+          marginLeft: marginLeftNumber,
+          height: heightNumber,
+          cornerRadius: cornerRadiusNumber,
+        },
+      },
+      "*"
+    );
+  };
+</script>
